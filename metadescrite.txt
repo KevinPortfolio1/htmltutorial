@@ -1,0 +1,75 @@
+HTML 中的 <meta> 標籤用來提供關於 HTML 文檔的元數據（metadata），
+例如頁面的描述、關鍵字、作者等。這些信息對 SEO（搜尋引擎優化）和頁面加載性能有很大影響。
+
+以下是一些常見且必學的 <meta> 標籤範例：
+
+1. 設定字符集（Charset）
+
+確保頁面正確顯示所有語言字符，這是網站開發中最基本的設定之一。
+
+<meta charset="UTF-8">
+
+2. 頁面描述（Description）
+
+描述頁面的內容，對 SEO 非常重要，通常會顯示在搜尋引擎結果中。
+
+<meta name="description" content="這是一個介紹 HTML 和 CSS 基礎知識的網站。">
+
+3. 頁面關鍵字（Keywords）
+
+列出與頁面相關的關鍵字，這對於搜尋引擎的排名有一定影響，但現代搜尋引擎較少使用這一標籤。
+
+<meta name="keywords" content="HTML, CSS, 網頁設計, 教學">
+
+4. 作者（Author）
+
+指定頁面的作者，這對某些網站或博客有用。
+
+<meta name="author" content="John Doe">
+
+5. 頁面內容類型（Content-Type）
+
+這是舊版本 HTML 中常用來指定頁面的字符集。現代 HTML 主要使用 charset 屬性來處理字符編碼。
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+6. 自動刷新（Auto Refresh）
+
+設置頁面自動刷新，並指定刷新時間。這對於一些動態內容頁面很有用。
+
+<meta http-equiv="refresh" content="30">
+
+7. 設置網頁的視口（Viewport）
+
+使網頁在移動設備上顯示得更加友好，這對響應式設計（Responsive Design）至關重要。
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+8. 網頁社交媒體分享（Open Graph）
+
+這些 <meta> 標籤是為了在社交媒體上分享時優化顯示內容，像是 Facebook 和 LinkedIn。
+
+<meta property="og:title" content="HTML 基礎教學">
+<meta property="og:description" content="學習 HTML 和 CSS 的基礎知識，打造屬於自己的網站。">
+<meta property="og:image" content="https://example.com/image.jpg">
+<meta property="og:url" content="https://example.com">
+
+9. 網頁編碼設置（X-UA-Compatible）
+
+這對於讓 Internet Explorer 使用較新的渲染引擎顯示頁面很有用。
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+10. 防止網頁被搜尋引擎索引（Noindex）
+
+這可以防止搜尋引擎索引某些頁面，適用於隱私頁面或測試頁面。
+
+<meta name="robots" content="noindex, nofollow">
+
+11. 網頁圖標（Favicon）
+
+設置網站圖標，這會顯示在瀏覽器的標籤頁上。
+
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+這些是 HTML 中常見且必學的 <meta> 標籤範例。了解並正確使用這些標籤有助於提升網站的性能和 SEO 排名。
