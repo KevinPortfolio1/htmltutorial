@@ -1,0 +1,125 @@
+//bootstap
+
+Class 			Extra small<576px 	Small≥576px 	Medium≥768px 	Large≥992px 	Extra large≥1200px 	XXL≥1400px
+.container-sm 	100% 				540px 			720px 			960px 			1140px 				1320px
+.container-md 	100% 				100% 			720px 			960px 			1140px 				1320px
+.container-lg 	100% 				100% 			100% 			960px 			1140px 				1320px
+.container-xl 	100% 				100% 			100% 			100% 			1140px 				1320px
+.container-xxl 	100% 				100% 			100% 			100% 			100% 				1320px
+
+-----------------------------------------------------------------------------------------------------------------------
+
+ <div class="row">
+  <div class="col-sm-4">.col-sm-4</div>
+  <div class="col-sm-8">.col-sm-8</div>
+</div> 
+
+----------------------------------------------
+<p class="text-muted">This text is muted.</p>
+  <p class="text-primary">This text is important.</p>
+  <p class="text-success">This text indicates success.</p>
+  <p class="text-info">This text represents some information.</p>
+  <p class="text-warning">This text represents a warning.</p>
+  <p class="text-danger">This text represents danger.</p>
+  <p class="text-secondary">Secondary text.</p>
+  <p class="text-dark">This text is dark grey.</p>
+  <p class="text-body">Default body color (often black).</p>
+  <p class="text-light">This text is light grey (on white background).</p>
+  <p class="text-white">This text is white (on white background).</p>
+-----------------------------------------------------------------------------
+.table-primary 	Blue: Indicates an important action
+.table-success 	Green: Indicates a successful or positive action
+.table-danger 	Red: Indicates a dangerous or potentially negative action
+.table-info 	Light blue: Indicates a neutral informative change or action
+.table-warning 	Orange: Indicates a warning that might need attention
+.table-active 	Grey: Applies the hover color to the table row or table cell
+.table-secondary 	Grey: Indicates a slightly less important action
+.table-light 	Light grey table or table row background
+.table-dark 	Dark grey table or table row background
+
+----------------------------------------------------------------------------------
+ <img src="cinqueterre.jpg" class="rounded" alt="Cinque Terre"> 
+  <img src="cinqueterre.jpg" class="rounded-circle" alt="Cinque Terre"> 
+   <img src="cinqueterre.jpg" class="img-thumbnail" alt="Cinque Terre"> 
+-----------------------------------------------------------------------------------
+ <div class="progress">
+  <div class="progress-bar" style="width:70%">70%</div>
+</div> 
+
+----------------------------------------------------------
+<div class="spinner-border"></div>
+------------------------------------
+ <ul class="pagination">
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  <li class="page-item"><a class="page-link" href="#">1</a></li>
+  <li class="page-item"><a class="page-link" href="#">2</a></li>
+  <li class="page-item"><a class="page-link" href="#">3</a></li>
+  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul> 
+
+--------------------------------------------------------------------------
+ <ul class="list-group">
+  <li class="list-group-item active">Active item</li>
+  <li class="list-group-item">Second item</li>
+  <li class="list-group-item">Third item</li>
+</ul> 
+
+---------------------------------------------------------
+<ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Link 1</a></li>
+    <li><a class="dropdown-item" href="#">Link 2</a></li>
+    <li><a class="dropdown-item" href="#">Link 3</a></li>
+  </ul>
+  
+ -----------------------------------------------------------
+  <div id="accordion">
+
+  <div class="card">
+    <div class="card-header">
+      <a class="btn" data-bs-toggle="collapse" href="#collapseOne">
+        Collapsible Group Item #1
+      </a>
+    </div>
+    <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
+      <div class="card-body">
+        Lorem ipsum..
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseTwo">
+        Collapsible Group Item #2
+      </a>
+    </div>
+    <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
+      <div class="card-body">
+        Lorem ipsum..
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseThree">
+        Collapsible Group Item #3
+      </a>
+    </div>
+    <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
+      <div class="card-body">
+        Lorem ipsum..
+      </div>
+    </div>
+  </div>
+
+</div> 
+
+--------------------------------------------------------------------------------------
+<div class="d-flex justify-content-start">...</div>
+<div class="d-flex justify-content-end">...</div>
+<div class="d-flex justify-content-center">...</div>
+<div class="d-flex justify-content-between">...</div>
+<div class="d-flex justify-content-around">...</div>
+
+-------------------------------------------------------------------------------------
