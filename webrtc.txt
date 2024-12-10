@@ -1,0 +1,118 @@
+使用 WebRTC 進行即時影像和聲音的點對點傳輸
+
+WebRTC (Web Real-Time Communication) 是一個支持瀏覽器之間進行音視頻通信的技術，它允許直接的點對點通信，不需要中介伺服器。這是實現即時影像和聲音通話的主要技術。
+基本 WebRTC 即時視頻通話範例：
+
+    建立連接： 客戶端與伺服器（通常是信令伺服器）進行連接。
+    使用 WebRTC API 進行通訊： 使用 RTCPeerConnection 來建立視頻或音頻流，並通過 getUserMedia() 捕捉影像和聲音。
+
+以下是一個簡單的 WebRTC 範例，演示如何建立視頻通話。
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC 即時視頻通話</title>
+</head>
+<body>
+    <h1>WebRTC 即時視頻通話</h1>
+
+    <!-- 顯示本地視頻 -->
+    <video id="localVideo" autoplay muted width="320"></video>
+    
+    <!-- 顯示遠端視頻 -->
+    <video id="remoteVideo" autoplay width="320"></video>
+
+    <script>
+        // 瀏覽器支持 getUserMedia 的判斷
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // 創建 RTCPeerConnection 對象
+            const peerConnection = new RTCPeerConnection();
+
+            // 音視頻流
+            let localStream;
+
+            // 設置本地視頻流
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(function(stream) {
+                    localStream = stream;
+                    const localVideo = document.getElementById('localVideo');
+                    localVideo.srcObject = stream;
+
+                    // 將流添加到 peerConnection 中
+                    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+                })
+                .catch(function(error) {
+                    console.error('訪問攝像頭或麥克風失敗: ', error);
+                });
+
+            // 處理遠程視頻流
+            peerConnection.ontrack = function(event) {
+                const remoteVideo = document.getElementById('remoteVideo');
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            // 假設通過信令伺服器獲得的訊息（這裡只是為了演示，實際應該通過 WebSocket 或其他技術實現信令）
+            // 建立本地描述並傳送到遠端
+
+            // 設置 offer 和 answer 邏輯...
+            // peerConnection.createOffer()
+            //     .then(offer => peerConnection.setLocalDescription(offer))
+            //     .then(() => sendToRemote(offer)); // 通過信令伺服器發送 offer
+
+            // 這裡簡單的寫死一個遠端的 answer
+            // 設置遠端描述（這會從信令伺服器接收到）
+            // peerConnection.setRemoteDescription(new RTCSessionDescription(remoteAnswer));
+        } else {
+            console.log("瀏覽器不支持 WebRTC");
+        }
+    </script>
+</body>
+</html>
+
+解析：
+
+    這個範例展示了如何使用 getUserMedia() 捕捉本地的視頻和音頻流。
+    創建了 RTCPeerConnection 來建立點對點連接，並將本地的音視頻流傳遞給遠端。
+    當收到遠端流時，將其顯示在 <video> 元素中。
+
+3. 實際使用 WebRTC 需要的信令服務
+
+WebRTC 需要信令伺服器來協調兩端的連接過程。這部分並不由 WebRTC 本身處理，您需要自己實現或使用現有的解決方案來進行信令。信令服務用於交換一些關鍵的信息（如 offer, answer, 和 ICE candidates），使兩端能夠建立直接的點對點連接。
+4. 實現 WebRTC 信令服務
+
+信令服務一般是基於 WebSocket 實現的。這裡簡單示範如何搭建一個基於 WebSocket 的信令伺服器：
+Node.js WebSocket 信令伺服器範例：
+
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', ws => {
+    console.log('客戶端已連接');
+
+    // 接收消息
+    ws.on('message', message => {
+        console.log('接收到的訊息: %s', message);
+
+        // 向所有連接的客戶端廣播消息
+        wss.clients.forEach(client => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
+    });
+
+    // 客戶端斷開連接
+    ws.on('close', () => {
+        console.log('客戶端已斷開連接');
+    });
+});
+
+console.log('WebSocket 伺服器已啟動，監聽端口 8080');
+
+5. 小結
+
+    捕捉本地影像和聲音： 使用 getUserMedia() API 可以很容易地捕捉視頻和音頻。
+    WebRTC 用於實現即時視頻通話： WebRTC 提供了點對點的音視頻通訊，能夠實現實時的音視頻流傳輸。
+    信令伺服器： WebRTC 不包括信令功能，您需要建立一個信令伺服器來協調連接過程。WebSocket 是常見的實現方式。
