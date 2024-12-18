@@ -1,0 +1,212 @@
+1.
+firefox 第一個 WebExtension
+
+新增一個資料夾，然後進到裡面：
+	bash
+
+	mkdir borderify
+	cd borderify
+	
+現在新增一個檔案 "manifest.json"，直接放在 "borderify" 目錄底下就行，然後把下面的程式碼塞進去：
+
+	{
+	"manifest_version": 2,
+	"name": "Borderify",
+	"version": "1.0",
+
+	"description": "Adds a red border to all webpages matching mozilla.org.",
+
+	"icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.mozilla.org/*"],
+      "js": ["borderify.js"]
+    }
+  ]
+}
+
+
+/*
+
+
+    最前面的三個 key：manifest_version、name、version 必須寫進去，它包含了附加元件的基本詮釋資料（metadata）。
+    description 是可選、但最好要有：它會在附加元件管理員內標示。
+    icons 也是可選、但最好要有：它允許附加元件指定圖示、也會在附加元件的管理員顯示。
+
+
+	 這裡最有趣的 key 是 content_scripts：它告訴 Firefox 說：
+	 符合特定型態的 URL 會載入網頁的腳本。在此我們告訴 Firefox 說：
+	 所有由 "mozilla.org" 或其子域名服務的 HTTP 或 HTTPS 頁面，都要載入 "borderify.js"。
+	 
+	 
+	 如果你要用自己的圖標，它應該是 48x48 像素。你也可以針對高解析度提供 96x96 像素的圖標
+	 要不然，你也能提供 SVG 檔，它就會等比縮放。
+	 
+
+*/
+
+最後，新增一個檔案叫 "borderify.js"，直接放在 "borderify" 目錄底下即可，然後一樣把下面的 code 塞進去：
+
+	document.body.style.border = "5px solid red";
+	
+	
+一旦網址符合 manifest.json 中 content_scripts 所設定的模式，這段 script 就會載入，
+並且就像該頁自己讀入的程式碼一樣、能夠直接存取該頁上的東西。
+
+首先，仔細檢查這些檔案是否在正確的位置：
+
+borderify/
+    icons/
+        border-48.png
+    borderify.js
+    manifest.json
+
+	
+安裝
+
+在 Firefox 打開 about:debugging，點選 Load Temporary Add-on 然後選擇你的 manifest.json 檔案：
+現在這個附加元件就要安裝起來，但它要在你重新啟動 Firefox 後才開始。
+又或者，你可以從命令列利用 web-ext 工具執行 WebExtension。
+
+測試
+
+現在去看一下 mozilla.org 還有它下面的所有網頁。
+你應該會看到有個紅色外框圍繞著網頁。
+
+
+
+2.
+
+步驟 1：建立應用程式或擴充功能
+
+	
+    在電腦上建立應用程式或擴充功能檔案的專屬資料夾，並以應用程式或擴充功能的名稱命名。
+    建立資訊清單。
+        使用文字編輯器建立 JavaScript Object Notation (JSON) 檔案。您可以參考這個書籤應用程式的 JSON 檔案範例。
+        使用您自選的第三方 JSON 驗證工具，確認 JSON 程式碼的格式正確無誤。
+    將檔案儲存到應用程式或擴充功能的資料夾中，並命名為 manifest.json。
+	
+	{
+  "name": "",
+  "description": "",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {},
+  "icons": {
+    "16": "./32x32.png",
+    "32": "./32x32.png",
+    "48": "./32x32.png",
+    "128": "./32x32.png"
+  },
+  "permissions": ["tabs"]
+  
+  
+}
+	
+	
+	
+    title: 套件的標題，會顯示在開發頁面或是上架之後的頁面
+    description: 套件的描述，同樣會顯示在開發頁面或是上架之後的頁面
+    version: 套件的版本，用來進行版本控管
+    manifest_version: 此套件的開發版本，目前有v2 & v3兩種版本，在語法與功能上會有些微差異，此系列文一律採用v3版本
+    background: 描述要在背景執行的js檔案位置，
+	擴充套件在執行點與內容上可大致分為background script & content script，
+	這個套件我們只需要它不斷地在背景執行即可，暫時可以先專注在background script
+    action: 設置點擊icon時的一些行為，我們這次的套件用不到，按照官方文件的說明留空．
+    icons: 顯示在瀏覽器上的插件圖示，不同的大小會在不同的地方使用，
+	理論上你需要提供所有不同的尺寸來達到最佳的展示效果，不過為了方便我們這邊就統一提供32 * 32的大小即可，
+	範例中的圖片我是透過favicon.io來產出的，你也可以自己做喜歡的icon
+    permissions: 此套件需要用到的瀏覽器權限，不同的權限決定了你的套件能做的功能，
+	這詳細的權限清單請見google的官方文件，我們這次要做的小玩意僅需要tabs權限即可．
+
+	
+	
+    建立標誌。
+        建立一個 128 x 128 像素的應用程式標誌。
+        將檔案儲存到應用程式資料夾中，並命名為 128.png。
+		
+		
+	
+    chrome.tabs.onUpdated.addListener，用來監聽tabs狀態的更新
+    chrome.tabs.remove，用來關掉一個或多個tab
+
+	同時，我們也要在監聽器內做個判斷決定當前的頁面是否要關掉，這麼一來大致的結構就出來囉！ 
+	請你在background.js中貼上以下的內容，看不懂一樣沒有關係，我會做說明
+
+	chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+	if (tab.url.includes("youtube")) {
+    chrome.tabs.remove(tabId);
+	}
+	});
+
+	當然，假設你想要阻擋的並不只一個網頁，那麼用陣列的方式來處理也是完全可以的
+
+	chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+	const forbiddenKeywords = ["youtube", "netflix", "disney"];
+	for (let i = 0; i < forbiddenKeywords.length; i++) {
+		if (tab.url.includes(forbiddenKeywords[i])) {
+		chrome.tabs.remove(tabId);
+		}
+	}
+	});
+
+	想再fancy一點可以用es6的some語法，這邊不額外做說明，之後的文章會提到
+
+	chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+	const forbiddenKeywords = ["youtube", "netflix", "disney"];
+	const isPageForbidden = forbiddenKeywords.some((keyword) =>
+		tab.url.includes(keyword)
+	);
+	if (isPageForbidden) {
+		chrome.tabs.remove(tabId);
+	}
+	});
+
+	程式碼其實相當的單純，我們在chrome.tabs.onUpdated這樣的事件上掛了一個監聽器，
+	這個監聽器需要傳入一個callback函數，其中包含以下的三個參數
+
+    tabId: 目前更新的tabId
+    changeInfo: 更新的一些資訊
+    tab: 更新的tab物件
+
+		
+		
+		
+	結構
+	  png
+	  js
+	  jspn
+
+		
+步驟 2：測試應用程式或擴充功能
+
+開發人員可以測試應用程式或擴充功能，確保其在 Chrome 瀏覽器或 ChromeOS 裝置中能夠正常運作。
+
+    選擇您需要的測試裝置類型：
+        應用程式：在 Chrome 裝置上登入 Google 帳戶。
+        擴充功能：在 Chrome 裝置上登入 Google 帳戶，或在 Windows、Mac 或 Linux 電腦上使用 Chrome 瀏覽器登入。
+    將應用程式或擴充功能的資料夾儲存在測試裝置上。
+    前往 chrome://extensions/。
+    在右上方開啟 [開發人員模式]。
+    按一下 [載入未封裝項目]。
+    找出並選取應用程式或擴充功能資料夾。
+    在 Chrome 中開啟新分頁 下一步 按一下 [應用程式] 下一步 按一下應用程式或擴充功能。
+	確認應用程式或擴充功能正確地載入並執行。
+    視需要編輯 manifest.json 檔案並代管應用程式資料夾，然後重新進行測試。重複執行所有步驟，
+	直到應用程式或擴充功能能夠正常運作為止。
+
+使用 Chrome 記錄排解應用程式或擴充功能的問題：
+
+    在 Chrome 中依序按一下 [更多] 下一步 [更多工具] 下一步 [開發人員工具]。
+    驗證您的資訊。舉例來說，請檢查應用程式 ID 和版本號碼是否正確無誤。
+	
+
+
+
+
